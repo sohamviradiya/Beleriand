@@ -7,11 +7,11 @@ export class AppController {
 
 	@Get()
 	getHello(): string {
-		return "Hello, I'm a GET request";
+		return '';
 	}
 
 	@Post()
 	createHello(): string {
-		return "Hello, I'm a PUT request";
+		return '';
 	}
 }
