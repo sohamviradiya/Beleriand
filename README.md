@@ -1,3 +1,3 @@
-# Intellijentsia Backend
+# Intelligentsia Backend
 ## Nest JS
 
