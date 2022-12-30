@@ -10,12 +10,19 @@ import { AuthModule } from './auth/auth.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
-
 @Module({
-	imports: [ConfigModule.forRoot({ isGlobal: true }), ServeStaticModule.forRoot({
-		rootPath: join(__dirname, '..', 'uploads'),
-		serveRoot: '/uploads',
-	}), MongooseModule.forRoot(process.env.MONGO_URI), UsersModule, TweetsModule, CommentsModule, AuthModule],
+	imports: [
+		ConfigModule.forRoot({ isGlobal: true }),
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'uploads'),
+			serveRoot: '/uploads',
+		}),
+		MongooseModule.forRoot(process.env.MONGO_URI),
+		UsersModule,
+		TweetsModule,
+		CommentsModule,
+		AuthModule,
+	],
 	controllers: [AppController],
 	providers: [AppService],
 })

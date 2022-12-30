@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import InitTweetDto from './tweets.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Query } from 'mongoose';
+import mongoose, { isValidObjectId, Model } from 'mongoose';
 import { Tweet, TweetDocument } from './tweets.schema';
 
 @Injectable()
 export class TweetsService {
-	constructor(@InjectModel(Tweet.name) private tweetModel: Model<TweetDocument>) { }
+	constructor(@InjectModel(Tweet.name) private tweetModel: Model<TweetDocument>) {}
 
 	async create(tweet: InitTweetDto, user: string): Promise<Tweet> {
 		const createdTweet = new this.tweetModel({ ...tweet, user: user, postedAt: new Date(), likes: [] });
@@ -40,7 +40,7 @@ export class TweetsService {
 		return await this.tweetModel.findByIdAndUpdate(id, tweet, { new: true }).exec();
 	}
 
-	async like(id: string, userId: string): Promise<Tweet> {
+	async like(id: string, userId: mongoose.Schema.Types.ObjectId): Promise<Tweet> {
 		return await this.tweetModel.findByIdAndUpdate(id, { $addToSet: { likes: userId } }, { new: true }).exec();
 	}
 

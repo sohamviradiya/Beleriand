@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsAlphanumeric, Length, Matches, NotContains, IsLowercase } from 'class-validator';
+import { IsEmail, IsNotEmpty, Length, Matches, NotContains, IsLowercase } from 'class-validator';
 export default class InitUserDto {
 	@IsNotEmpty({ message: 'Username is required' })
 	@IsLowercase({ message: 'Username must be lowercase' })

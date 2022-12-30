@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Put, Body, Param, UseInterceptors, UploadedFile, MaxFileSizeValidator, ParseFilePipe, PayloadTooLargeException, Req, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body, Param, UseInterceptors, UploadedFile, MaxFileSizeValidator, ParseFilePipe, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.schema';
 import InitUserDto from './users.dto';
@@ -98,7 +98,7 @@ export class UsersController {
 	unfollow(@Req() req, @Param('id') followId: string): Promise<User> {
 		return this.userService.unfollow(req.user._id, followId);
 	}
-	
+
 	@Put()
 	@UseInterceptors(UploadConfigs)
 	update(

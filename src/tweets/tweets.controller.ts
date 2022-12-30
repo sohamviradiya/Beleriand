@@ -41,7 +41,7 @@ export class TweetsController {
 	@Delete()
 	removeAllByUserId(@Req() req): Promise<any> {
 		this.tweetService.findAllByUserId(req.user._id).then((tweets) => {
-			tweets.forEach((tweet:any) => {
+			tweets.forEach((tweet: any) => {
 				this.commentService.removeAllByTweetId(tweet._id);
 			});
 		});
