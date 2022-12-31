@@ -20,19 +20,19 @@ export class User {
 	@Prop({ required: true })
 	firstName: string;
 
-	@Prop({ default: '' })
+	@Prop({ default: "" })
 	lastName: string;
 
 	@Prop({ default: null })
 	avatar: string;
 
-	@Prop({ default: '' })
+	@Prop({ default: "" })
 	bio: string;
 
-	@Prop({ default: '' })
+	@Prop({ default: "" })
 	country: string;
 
-	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }] })
 	following: User[];
 }
 

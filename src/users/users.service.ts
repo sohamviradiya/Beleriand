@@ -24,7 +24,7 @@ export class UsersService {
 
 	async findOne(id: string): Promise<User> {
 		if (!isValidObjectId(id)) throw new HttpException('Invalid user id', 400);
-		return await this.userModel.findById(id).populate('following').exec();
+		return await this.userModel.findById(id, {password: 0}).populate('following').exec();
 	}
 
 	async findByUserName(username: string): Promise<User> {
@@ -33,7 +33,7 @@ export class UsersService {
 
 	async findFollowers(id: string): Promise<User[]> {
 		if (!isValidObjectId(id)) throw new HttpException('Invalid user id', 400);
-		return await this.userModel.find({ following: [id] }).exec();
+		return await this.userModel.find({ following: id },{password: 0}).exec();
 	}
 
 	async update(id: string, user: InitUserDto): Promise<User> {
