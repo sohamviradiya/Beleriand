@@ -1,15 +1,27 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Comment, CommentDocument } from './comments.schema';
-import InitCommentDto from './comments.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { Comment, CommentDocument } from "./comments.schema";
+import InitCommentDto from "./comments.dto";
 
 @Injectable()
 export class CommentsService {
-	constructor(@InjectModel(Comment.name) private commentModel: Model<CommentDocument>) {}
+	constructor(
+		@InjectModel(Comment.name) private commentModel: Model<CommentDocument>
+	) {}
 
-	async create(comment: InitCommentDto, user: string, tweet: string): Promise<Comment> {
-		const createdComment = new this.commentModel({ ...comment, user: user, tweet: tweet, postedAt: new Date(), likes: [] });
+	async create(
+		comment: InitCommentDto,
+		user: string,
+		tweet: string
+	): Promise<Comment> {
+		const createdComment = new this.commentModel({
+			...comment,
+			user: user,
+			tweet: tweet,
+			postedAt: new Date(),
+			likes: [],
+		});
 		return await createdComment.save();
 	}
 
@@ -18,30 +30,41 @@ export class CommentsService {
 	}
 
 	async findAllByTweetId(id: string): Promise<Comment[]> {
-		return await this.commentModel.find({ tweet: id }).populate('user').exec();
+		return await this.commentModel.find({ tweet: id }).populate("user").exec();
 	}
 
 	async findAllByUserId(id: string): Promise<Comment[]> {
-		return await this.commentModel.find({ user: id }).populate('tweet').exec();
+		return await this.commentModel.find({ user: id }).populate("tweet").exec();
 	}
 
 	async findAllLikedByUserId(id: string): Promise<Comment[]> {
 		return await this.commentModel
 			.find({ likes: [id] })
-			.populate('tweet')
+			.populate("tweet")
 			.exec();
 	}
 
 	async verifyCommentOwner(id: string, user: string): Promise<boolean> {
-		return String((await this.commentModel.findById(id).select('user').exec()).user) == user;
+		return (
+			String(
+				(await this.commentModel.findById(id).select("user").exec()).user
+			) == user
+		);
 	}
 
 	async findOne(id: string): Promise<Comment> {
-		return await this.commentModel.findById(id).populate('user').populate('tweet').populate('likes').exec();
+		return await this.commentModel
+			.findById(id)
+			.populate("user")
+			.populate("tweet")
+			.populate("likes")
+			.exec();
 	}
 
 	async update(id: string, comment: InitCommentDto): Promise<Comment> {
-		return await this.commentModel.findByIdAndUpdate(id, comment, { new: true }).exec();
+		return await this.commentModel
+			.findByIdAndUpdate(id, comment, { new: true })
+			.exec();
 	}
 
 	async like(id: string, user: string): Promise<Comment> {

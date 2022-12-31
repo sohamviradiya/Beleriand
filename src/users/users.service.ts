@@ -38,7 +38,9 @@ export class UsersService {
 
 	async update(id: string, user: InitUserDto): Promise<User> {
 		if (!isValidObjectId(id)) throw new HttpException('Invalid user id', 400);
-		return await this.userModel.findByIdAndUpdate(id, user, { new: true }).exec();
+		return await this.userModel
+			.findByIdAndUpdate(id, user, { new: true })
+			.exec();
 	}
 
 	async follow(id: string, followId: string): Promise<User> {
