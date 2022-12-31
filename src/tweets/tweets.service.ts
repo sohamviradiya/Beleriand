@@ -58,7 +58,6 @@ export class TweetsService {
 	}
 
 	async like(id: string, userId: string): Promise<Tweet> {
-		console.log(userId);
 		return await this.tweetModel
 			.findByIdAndUpdate(id, { $addToSet: { likes: userId } }, { new: true })
 			.populate("user")
