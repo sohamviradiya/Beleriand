@@ -1,3 +1,3 @@
 # Intelligentsia Backend
 ## Nest JS
-### [Deployed At]
+### [Deployed At](https://sohamviradiya.github.io/Intelligentsia/#/)
