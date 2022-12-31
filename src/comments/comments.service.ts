@@ -33,11 +33,11 @@ export class CommentsService {
 	}
 
 	async verifyCommentOwner(id: string, user: string): Promise<boolean> {
-		return String((await this.commentModel.findById(id).select('user').exec()).user) === user;
+		return String((await this.commentModel.findById(id).select('user').exec()).user) == user;
 	}
 
 	async findOne(id: string): Promise<Comment> {
-		return await (await this.commentModel.findById(id).populate('user').populate('tweet')).populated('likes').exec();
+		return await this.commentModel.findById(id).populate('user').populate('tweet').populate('likes').exec();
 	}
 
 	async update(id: string, comment: InitCommentDto): Promise<Comment> {
@@ -45,7 +45,12 @@ export class CommentsService {
 	}
 
 	async like(id: string, user: string): Promise<Comment> {
-		return await this.commentModel.findByIdAndUpdate(id, { $addToSet: { likes: user } }, { new: true }).exec();
+		return await this.commentModel
+			.findByIdAndUpdate(id, { $addToSet: { likes: user } }, { new: true })
+			.populate("user")
+			.populate("tweet")
+			.populate("likes")
+			.exec();
 	}
 
 	async remove(id: string): Promise<Comment> {
@@ -61,6 +66,11 @@ export class CommentsService {
 	}
 
 	async dislike(id: string, user: string): Promise<Comment> {
-		return await this.commentModel.findByIdAndUpdate(id, { $pull: { likes: user } }, { new: true }).exec();
+		return await this.commentModel
+			.findByIdAndUpdate(id, { $pull: { likes: user } }, { new: true })
+			.populate("user")
+			.populate("tweet")
+			.populate("likes")
+			.exec();
 	}
 }

@@ -43,7 +43,14 @@ export class UsersService {
 
 	async follow(id: string, followId: string): Promise<User> {
 		if (!isValidObjectId(id)) throw new HttpException('Invalid user id', 400);
-		return await this.userModel.findByIdAndUpdate(id, { $addToSet: { following: followId } }, { new: true }).exec();
+		return await this.userModel
+			.findByIdAndUpdate(
+				id,
+				{ $addToSet: { following: followId } },
+				{ new: true }
+			)
+			.populate("following")
+			.exec();
 	}
 
 	async remove(id: string): Promise<User> {
@@ -53,6 +60,6 @@ export class UsersService {
 
 	async unfollow(id: string, followId: string): Promise<User> {
 		if (!isValidObjectId(id)) throw new HttpException('Invalid user id', 400);
-		return await this.userModel.findByIdAndUpdate(id, { $pull: { following: followId } }, { new: true }).exec();
+		return await this.userModel.findByIdAndUpdate(id, { $pull: { following: followId } }, { new: true }).populate('following').exec();
 	}
 }
