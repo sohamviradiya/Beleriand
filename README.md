@@ -1,3 +1,3 @@
 # Blog Application Backend
 ## Nest JS
-### [Deployed At](https://sohamviradiya.github.io/Intelligentsia/#/)
+### [Visit](https://sohamviradiya.github.io/Intelligentsia/#/)
